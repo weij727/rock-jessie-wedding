@@ -51,17 +51,28 @@
         }
         
         /* ======================================================== */
-        /* 📸 首頁背景圖設定 (請在這裡換成你們的照片)               */
+        /* 📸 照片滑動動畫設定 (請在這裡換成你們的照片)               */
         /* ======================================================== */
-        .hero-bg {
+        .sliding-bg {
             /* 💡 替換教學：
                請將下方 url('...') 裡面的那一長串預設圖片網址刪除，
-               改成您上傳的檔案名稱，例如：url('bg.jpg')
+               改成您上傳的照片名稱，例如：url('bg.jpg')
             */
-            background-image: linear-gradient(rgba(253, 251, 247, 0.3), rgba(253, 251, 247, 0.8)), url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120%; /* 增加 20% 寬度以產生向左滑動的隱藏空間 */
+            height: 100%;
+            /* 動畫設定：向左滑動，時間 25 秒，無限來回播放 */
+            animation: slideLeft 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-16.66%); } /* 完美的平滑位移比例 */
         }
 
         .v-card {
@@ -74,124 +85,58 @@
 </head>
 <body class="antialiased selection:bg-morandi-sun selection:text-white">
 
-    <!-- 頂端毛玻璃導航列 -->
-    <nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-cormorant text-2xl font-semibold text-morandi-sun tracking-wider">R & J</a>
-            <div class="space-x-6 hidden md:block text-sm tracking-widest text-morandi-text/80">
-                <a href="#about" class="hover:text-morandi-sun transition-colors duration-300">關於我們</a>
-                <a href="#details" class="hover:text-morandi-sun transition-colors duration-300">婚禮詳情</a>
-                <a href="#rsvp" class="hover:text-morandi-sun transition-colors duration-300">出席回函</a>
-            </div>
-            <!-- Mobile Menu Button -->
-            <button class="md:hidden text-morandi-text" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-        </div>
-        <!-- Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-50 absolute w-full shadow-lg">
-            <div class="flex flex-col px-6 py-4 space-y-4 text-center tracking-widest">
-                <a href="#about" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">關於我們</a>
-                <a href="#details" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">婚禮詳情</a>
-                <a href="#rsvp" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">出席回函</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 首頁全螢幕封面 -->
-    <header class="hero-bg min-h-screen flex flex-col items-center justify-center relative px-4">
-        <div class="text-center mt-20" data-aos="fade-up">
-            <h2 class="font-cormorant text-xl md:text-2xl text-morandi-green tracking-[0.3em] mb-4 uppercase">Love in London</h2>
-            <h1 class="font-cormorant text-6xl md:text-8xl text-morandi-text mb-6">Rock <span class="text-morandi-sun">&</span> Jessie</h1>
-            <p class="text-lg md:text-xl tracking-widest text-gray-600 mt-8 mb-16">WE ARE GETTING MARRIED</p>
-        </div>
-
-        <!-- 藝術感倒數計時器 -->
-        <div class="absolute bottom-12 w-full px-4 flex flex-col items-center">
-            <p class="font-cormorant text-lg text-morandi-green mb-4 tracking-[0.2em]">2026 . 12 . 12</p>
-            <div class="flex flex-wrap justify-center gap-3 md:gap-6" id="countdown-container">
-                <!-- Days -->
-                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
-                    <span id="cd-days" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
-                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
-                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">天</span>
-                </div>
-                <!-- Hours -->
-                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
-                    <span id="cd-hours" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
-                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
-                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">時</span>
-                </div>
-                <!-- Minutes -->
-                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
-                    <span id="cd-minutes" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
-                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
-                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">分</span>
-                </div>
-                <!-- Seconds -->
-                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
-                    <span id="cd-seconds" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
-                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
-                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">秒</span>
-                </div>
-            </div>
-        </div>
+    <!-- 1. 最上方標題 -->
+    <header class="w-full bg-white py-5 text-center relative z-20 shadow-sm">
+        <h1 class="font-cormorant text-2xl md:text-3xl text-morandi-text tracking-widest">
+            Rock & Jessie <span class="text-morandi-sun/50 mx-2">|</span> Love in London.
+        </h1>
     </header>
 
-    <!-- 關於我們 & 婚禮詳情 (V-Card 設計) -->
-    <section id="details" class="py-24 px-6 max-w-4xl mx-auto space-y-16">
-        <!-- V-Card 1: Date & Time -->
+    <!-- 2. 照片 & 向左滑動動畫 -->
+    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-100">
+        <div class="sliding-bg"></div>
+    </div>
+
+    <!-- 3. 白色色塊 (日期) -->
+    <div class="relative -mt-8 z-10 max-w-[280px] md:max-w-xs mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-glow py-4 px-6 text-center border border-morandi-sun/10">
+        <p class="font-cormorant text-2xl md:text-3xl text-morandi-text tracking-widest">
+            2026.12.12 <span class="text-morandi-sun font-medium ml-1">Sat.</span>
+        </p>
+    </div>
+
+    <!-- 4. 婚宴資訊 (時間 & 地點整合) -->
+    <section class="py-20 px-6 max-w-3xl mx-auto">
         <div class="v-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-morandi-sun/20 via-morandi-sun to-morandi-sun/20"></div>
+            
             <i data-lucide="calendar-heart" class="w-10 h-10 mx-auto text-morandi-sun mb-6"></i>
-            <h2 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-2">The Wedding</h2>
-            <p class="text-sm tracking-widest text-gray-400 mb-8 uppercase">婚禮資訊</p>
+            <h2 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-2">Wedding Info</h2>
+            <p class="text-sm tracking-widest text-gray-400 mb-10 uppercase">婚宴資訊</p>
             
-            <div class="space-y-4 text-lg">
-                <p class="tracking-wider">2026 年 12 月 12 日 (星期六)</p>
-                <p class="tracking-wider">入席時間 / 11:30 AM</p>
-                <p class="tracking-wider">午宴開始 / 12:00 PM</p>
+            <!-- 時間 -->
+            <div class="space-y-3 text-lg mb-12 pb-10 border-b border-morandi-sun/10">
+                <p class="tracking-wider text-morandi-text font-medium">入席時間 / 17:30</p>
+                <p class="tracking-wider text-morandi-text font-medium">晚宴開始 / 18:00</p>
             </div>
-        </div>
 
-        <!-- V-Card 2: Location & Transport (Accordion) -->
-        <div class="v-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-            <i data-lucide="map-pin" class="w-10 h-10 mx-auto text-morandi-sun mb-6"></i>
-            <h2 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-2">Location</h2>
-            <p class="text-sm tracking-widest text-gray-400 mb-8 uppercase">宴會地點</p>
-            
+            <!-- 地點 -->
             <div class="space-y-4 text-lg mb-10">
-                <p class="font-semibold text-xl tracking-widest">萬豪酒店 Taipei Marriott Hotel</p>
-                <p class="text-gray-600"><span class="whitespace-nowrap">台北市中山區</span><span class="whitespace-nowrap">樂群二路199號</span></p>
-                <p class="text-gray-600">8樓 萬豪廳</p>
+                <i data-lucide="map-pin" class="w-6 h-6 mx-auto text-morandi-green mb-4"></i>
+                <p class="font-semibold text-xl tracking-widest text-morandi-text">GUMGUM EGG 剛剛小巨蛋店</p>
+                <p class="text-gray-600"><span class="whitespace-nowrap">臺北市松山區</span><span class="whitespace-nowrap">南京東路四段2號1樓1號</span></p>
+                
+                <!-- Google Map 導航按鈕 -->
+                <a href="https://maps.app.goo.gl/jHxPSmR1fUn1aUHx7" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 mt-4 px-6 py-2 border border-morandi-sun text-morandi-sun hover:bg-morandi-sun hover:text-white rounded-full transition-colors text-sm tracking-widest">
+                    <i data-lucide="map" class="w-4 h-4"></i>
+                    開啟 Google 導航
+                </a>
             </div>
-
-            <!-- 交通指引摺疊面板 -->
-            <details class="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden text-left cursor-pointer transition-all duration-300">
-                <summary class="flex justify-between items-center p-6 bg-morandi-bg/50 hover:bg-morandi-sun/5 transition-colors">
-                    <span class="tracking-widest font-medium text-morandi-text">交通指引與停車資訊</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5 text-morandi-sun transition-transform duration-300 group-open:rotate-180"></i>
-                </summary>
-                <div class="p-6 border-t border-gray-100 text-gray-600 space-y-6 leading-relaxed">
-                    <div>
-                        <h4 class="text-morandi-green font-medium mb-2 flex items-center gap-2">
-                            <i data-lucide="train" class="w-4 h-4"></i> 大眾運輸
-                        </h4>
-                        <p>搭乘捷運文湖線至 <span class="whitespace-nowrap font-medium text-morandi-sun">劍南路站</span>，由 <span class="whitespace-nowrap">3號出口</span> 步行約 10 分鐘即可抵達。</p>
-                    </div>
-                    <div>
-                        <h4 class="text-morandi-green font-medium mb-2 flex items-center gap-2">
-                            <i data-lucide="car" class="w-4 h-4"></i> 自行開車
-                        </h4>
-                        <p>飯店設有地下停車場。賓客憑喜帖或於櫃檯報 <span class="whitespace-nowrap font-medium text-morandi-sun">「Rock與Jessie婚宴」</span> 可享免費停車 4 小時。</p>
-                    </div>
-                </div>
-            </details>
         </div>
     </section>
 
-    <!-- 出席回函 (RSVP Form) -->
-    <section id="rsvp" class="py-24 px-6 bg-white relative">
+    <!-- 5. 婚禮回函 & 6. 上傳照片 -->
+    <section id="rsvp" class="py-16 px-6 bg-white relative">
         <div class="max-w-2xl mx-auto relative z-10">
             <div class="text-center mb-16">
                 <h2 class="font-cormorant text-4xl text-morandi-sun tracking-widest mb-4">R.S.V.P</h2>
@@ -455,8 +400,6 @@
         lucide.createIcons();
 
         // --- 智能表單聯動邏輯 ---
-        
-        // 1. 參加意願連動：隱藏/顯示 出席人數與飲食區塊
         const attendRadios = document.querySelectorAll('.attend-radio');
         const attendDetails = document.getElementById('attend-details');
         
@@ -464,20 +407,16 @@
             radio.addEventListener('change', function() {
                 if(this.value === '準時出席！親自到現場一起吃喝玩樂～') {
                     attendDetails.classList.remove('hidden');
-                    // 延遲一點點加入 opacity 實現淡入動畫
                     setTimeout(() => attendDetails.classList.remove('opacity-0'), 10);
-                    // 將隱藏區塊內的 required 屬性加上
                     document.querySelectorAll('.guest-count-radio').forEach(r => r.required = true);
                 } else {
                     attendDetails.classList.add('opacity-0');
                     setTimeout(() => attendDetails.classList.add('hidden'), 500);
-                    // 移除隱藏區塊內的 required 避免無法送出表單
                     document.querySelectorAll('.guest-count-radio').forEach(r => r.required = false);
                 }
             });
         });
 
-        // 2. 出席人數「其他」連動：啟用/停用 文字輸入框
         const guestRadios = document.querySelectorAll('.guest-count-radio');
         const otherGuestInput = document.getElementById('input-other-guest');
         const otherGuestRadio = document.getElementById('radio-other-guest');
@@ -489,42 +428,15 @@
                     otherGuestInput.focus();
                 } else {
                     otherGuestInput.disabled = true;
-                    otherGuestInput.value = ''; // 清空
+                    otherGuestInput.value = '';
                 }
             });
         });
         
-        // 點擊輸入框時，自動選擇「其他」的 Radio
         otherGuestInput.addEventListener('click', function() {
             otherGuestRadio.checked = true;
             this.disabled = false;
         });
-
-
-        // --- 倒數計時器邏輯 ---
-        const countdown = () => {
-            const countDate = new Date('December 12, 2026 12:00:00').getTime();
-            const now = new Date().getTime();
-            const gap = countDate - now;
-
-            const second = 1000;
-            const minute = second * 60;
-            const hour = minute * 60;
-            const day = hour * 24;
-
-            const textDay = Math.floor(gap / day);
-            const textHour = Math.floor((gap % day) / hour);
-            const textMinute = Math.floor((gap % hour) / minute);
-            const textSecond = Math.floor((gap % minute) / second);
-
-            document.getElementById('cd-days').innerText = textDay < 10 ? '0' + textDay : textDay;
-            document.getElementById('cd-hours').innerText = textHour < 10 ? '0' + textHour : textHour;
-            document.getElementById('cd-minutes').innerText = textMinute < 10 ? '0' + textMinute : textMinute;
-            document.getElementById('cd-seconds').innerText = textSecond < 10 ? '0' + textSecond : textSecond;
-        };
-
-        setInterval(countdown, 1000);
-        countdown();
 
         // --- Iframe 隱藏提交成功邏輯 ---
         window.submitted = false;
@@ -535,7 +447,6 @@
         }
 
         // --- Google Drive 直接上傳邏輯 (Apps Script) ---
-        // ⚠️ 以下已替換為您的專屬 Google Apps Script 部署網址！
         const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLrHLJtYyChNmmbDG7r9Oexen3fCQYyVVITcK28tjYOLRud5kNVeAR6skVYXZnHr8/exec'; 
         
         let selectedFiles = [];
@@ -563,7 +474,7 @@
         async function startDriveUpload() {
             if (selectedFiles.length === 0) return;
             if (UPLOAD_SCRIPT_URL === 'YOUR_WEB_APP_URL_HERE') {
-                alert("【開發者注意】請先在程式碼下方設定您的 Google Apps Script 網址 (UPLOAD_SCRIPT_URL)，才能啟用上傳功能喔！");
+                alert("【開發者注意】請先設定您的 Google Apps Script 網址喔！");
                 return;
             }
 
@@ -581,7 +492,6 @@
                 for (let i = 0; i < selectedFiles.length; i++) {
                     const file = selectedFiles[i];
                     
-                    // 檔案大小防呆 (限制單檔 10MB)
                     if (file.size > 10 * 1024 * 1024) {
                         throw new Error(`檔案 ${file.name} 超過 10MB，請壓縮後再傳`);
                     }
@@ -598,7 +508,6 @@
                         data: base64Content
                     };
 
-                    // 使用 mode: 'no-cors' 避免 Google 重新導向引發跨域錯誤
                     await fetch(UPLOAD_SCRIPT_URL, {
                         method: 'POST',
                         body: JSON.stringify(payload),
@@ -610,7 +519,6 @@
                 statusDiv.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> <span>上傳成功！感謝您的分享！</span>';
                 lucide.createIcons();
                 
-                // 3秒後恢復原狀
                 setTimeout(() => {
                     document.getElementById('upload-ui-idle').classList.remove('hidden');
                     document.getElementById('file-list-container').classList.add('hidden');
