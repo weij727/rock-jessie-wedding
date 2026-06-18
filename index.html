@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock & Jessie | Love in London</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        morandi: {
+                            sun: '#d4a373',
+                            green: '#8da399',
+                            bg: '#fdfbf7',
+                            text: '#4a4a4a'
+                        }
+                    },
+                    fontFamily: {
+                        cormorant: ['"Cormorant Garamond"', 'serif'],
+                        noto: ['"Noto Serif TC"', 'serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 8px 30px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Serif TC', serif; background-color: #fdfbf7; color: #4a4a4a; }
+        h1, h2, h3, .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+        
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        details[open] summary ~ * {
+            animation: sweep .3s ease-in-out;
+        }
+        @keyframes sweep {
+            0%    {opacity: 0; transform: translateY(-10px)}
+            100%  {opacity: 1; transform: translateY(0)}
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(253, 251, 247, 0.3), rgba(253, 251, 247, 0.8)), url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .v-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 163, 115, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-morandi-sun selection:text-white">
+
+    <!-- 頂端毛玻璃導航列 -->
+    <nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-cormorant text-2xl font-semibold text-morandi-sun tracking-wider">R & J</a>
+            <div class="space-x-6 hidden md:block text-sm tracking-widest text-morandi-text/80">
+                <a href="#about" class="hover:text-morandi-sun transition-colors duration-300">關於我們</a>
+                <a href="#details" class="hover:text-morandi-sun transition-colors duration-300">婚禮詳情</a>
+                <a href="#rsvp" class="hover:text-morandi-sun transition-colors duration-300">出席回函</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-morandi-text" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-50 absolute w-full shadow-lg">
+            <div class="flex flex-col px-6 py-4 space-y-4 text-center tracking-widest">
+                <a href="#about" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">關於我們</a>
+                <a href="#details" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">婚禮詳情</a>
+                <a href="#rsvp" class="text-morandi-text hover:text-morandi-sun" onclick="document.getElementById('mobile-menu').classList.add('hidden')">出席回函</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首頁全螢幕封面 -->
+    <header class="hero-bg min-h-screen flex flex-col items-center justify-center relative px-4">
+        <div class="text-center mt-20" data-aos="fade-up">
+            <h2 class="font-cormorant text-xl md:text-2xl text-morandi-green tracking-[0.3em] mb-4 uppercase">Love in London</h2>
+            <h1 class="font-cormorant text-6xl md:text-8xl text-morandi-text mb-6">Rock <span class="text-morandi-sun">&</span> Jessie</h1>
+            <p class="text-lg md:text-xl tracking-widest text-gray-600 mt-8 mb-16">WE ARE GETTING MARRIED</p>
+        </div>
+
+        <!-- 藝術感倒數計時器 -->
+        <div class="absolute bottom-12 w-full px-4 flex flex-col items-center">
+            <p class="font-cormorant text-lg text-morandi-green mb-4 tracking-[0.2em]">2026 . 12 . 12</p>
+            <div class="flex flex-wrap justify-center gap-3 md:gap-6" id="countdown-container">
+                <!-- Days -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
+                    <span id="cd-days" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
+                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
+                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">天</span>
+                </div>
+                <!-- Hours -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
+                    <span id="cd-hours" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
+                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
+                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">時</span>
+                </div>
+                <!-- Minutes -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
+                    <span id="cd-minutes" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
+                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
+                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">分</span>
+                </div>
+                <!-- Seconds -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-glow px-4 py-3 md:px-6 md:py-4 flex items-center min-w-[100px] md:min-w-[120px] transform hover:-translate-y-1 transition-transform duration-300">
+                    <span id="cd-seconds" class="font-cormorant text-3xl md:text-4xl text-morandi-sun w-10 md:w-12 text-center">00</span>
+                    <div class="h-8 md:h-10 w-px bg-morandi-sun/30 mx-3 md:mx-4"></div>
+                    <span class="text-xs md:text-sm tracking-widest text-morandi-green font-medium">秒</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 關於我們 & 婚禮詳情 (V-Card 設計) -->
+    <section id="details" class="py-24 px-6 max-w-4xl mx-auto space-y-16">
+        <!-- V-Card 1: Date & Time -->
+        <div class="v-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-morandi-sun/20 via-morandi-sun to-morandi-sun/20"></div>
+            <i data-lucide="calendar-heart" class="w-10 h-10 mx-auto text-morandi-sun mb-6"></i>
+            <h2 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-2">The Wedding</h2>
+            <p class="text-sm tracking-widest text-gray-400 mb-8 uppercase">婚禮資訊</p>
+            
+            <div class="space-y-4 text-lg">
+                <p class="tracking-wider">2026 年 12 月 12 日 (星期六)</p>
+                <p class="tracking-wider">入席時間 / 11:30 AM</p>
+                <p class="tracking-wider">午宴開始 / 12:00 PM</p>
+            </div>
+        </div>
+
+        <!-- V-Card 2: Location & Transport (Accordion) -->
+        <div class="v-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+            <i data-lucide="map-pin" class="w-10 h-10 mx-auto text-morandi-sun mb-6"></i>
+            <h2 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-2">Location</h2>
+            <p class="text-sm tracking-widest text-gray-400 mb-8 uppercase">宴會地點</p>
+            
+            <div class="space-y-4 text-lg mb-10">
+                <p class="font-semibold text-xl tracking-widest">萬豪酒店 Taipei Marriott Hotel</p>
+                <p class="text-gray-600"><span class="whitespace-nowrap">台北市中山區</span><span class="whitespace-nowrap">樂群二路199號</span></p>
+                <p class="text-gray-600">8樓 萬豪廳</p>
+            </div>
+
+            <!-- 交通指引摺疊面板 -->
+            <details class="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden text-left cursor-pointer transition-all duration-300">
+                <summary class="flex justify-between items-center p-6 bg-morandi-bg/50 hover:bg-morandi-sun/5 transition-colors">
+                    <span class="tracking-widest font-medium text-morandi-text">交通指引與停車資訊</span>
+                    <i data-lucide="chevron-down" class="w-5 h-5 text-morandi-sun transition-transform duration-300 group-open:rotate-180"></i>
+                </summary>
+                <div class="p-6 border-t border-gray-100 text-gray-600 space-y-6 leading-relaxed">
+                    <div>
+                        <h4 class="text-morandi-green font-medium mb-2 flex items-center gap-2">
+                            <i data-lucide="train" class="w-4 h-4"></i> 大眾運輸
+                        </h4>
+                        <p>搭乘捷運文湖線至 <span class="whitespace-nowrap font-medium text-morandi-sun">劍南路站</span>，由 <span class="whitespace-nowrap">3號出口</span> 步行約 10 分鐘即可抵達。</p>
+                    </div>
+                    <div>
+                        <h4 class="text-morandi-green font-medium mb-2 flex items-center gap-2">
+                            <i data-lucide="car" class="w-4 h-4"></i> 自行開車
+                        </h4>
+                        <p>飯店設有地下停車場。賓客憑喜帖或於櫃檯報 <span class="whitespace-nowrap font-medium text-morandi-sun">「Rock與Jessie婚宴」</span> 可享免費停車 4 小時。</p>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- 出席回函 (RSVP Form) -->
+    <section id="rsvp" class="py-24 px-6 bg-white relative">
+        <div class="max-w-2xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-cormorant text-4xl text-morandi-sun tracking-widest mb-4">R.S.V.P</h2>
+                <p class="tracking-widest text-morandi-green">期待與您共享這份喜悅</p>
+            </div>
+
+            <!-- 隱藏式 Iframe，用於無跳轉提交 -->
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof submitted !== 'undefined' && submitted){showSuccessMessage();}"></iframe>
+
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLScB6odivFNS7KHTW7sMifh9Ue5LGnnf9G80DFYUpCgZXTo_uw/formResponse" 
+                  method="POST" 
+                  target="hidden_iframe" 
+                  onsubmit="window.submitted=true;"
+                  class="space-y-10 bg-morandi-bg/30 p-8 md:p-12 rounded-3xl border border-morandi-sun/10 shadow-glow">
+                
+                <!-- Q1. 名字 -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                        <span class="text-red-400 mr-1">*</span>名字 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">NAME</span>
+                    </label>
+                    <p class="text-xs text-gray-400 mb-2 tracking-wider">中文、英文、全名、綽號都可以，確定我們認得出來就好！</p>
+                    <input type="text" name="entry.1" required value="" 
+                           class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors rounded-none">
+                </div>
+
+                <!-- Q2. 手機 -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                        <span class="text-red-400 mr-1">*</span>手機 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">PHONE</span>
+                    </label>
+                    <p class="text-xs text-gray-400 mb-2 tracking-wider">檢查一下，請輸入正確的手機號碼，不要填錯哩！</p>
+                    <input type="tel" name="entry.2" pattern="[0-9]*" title="請輸入正確的手機號碼 (僅限數字)" required value="" 
+                           class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors rounded-none">
+                </div>
+
+                <!-- Q3. Email -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                        <span class="text-red-400 mr-1">*</span>Email <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">EMAIL</span>
+                    </label>
+                    <p class="text-xs text-gray-400 mb-2 tracking-wider">檢查一下，請輸入正確的電子信箱，不要填錯哩！</p>
+                    <input type="email" name="entry.3" title="請輸入正確的電子信箱格式" required value="" 
+                           class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors rounded-none">
+                </div>
+
+                <!-- Q4. 你是哪一方的賓客？ -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-3 text-morandi-text font-medium flex items-center">
+                        <span class="text-red-400 mr-1">*</span>你是哪一方的賓客？ <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">GUEST OF</span>
+                    </label>
+                    <div class="space-y-3">
+                        <label class="flex items-start cursor-pointer group-hover:text-morandi-sun">
+                            <input type="radio" name="entry.4" value="Rock 新郎友人" class="hidden peer" required>
+                            <div class="w-5 h-5 mt-0.5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors flex-shrink-0">
+                                <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                            </div>
+                            <span class="tracking-widest text-gray-600 transition-colors">Rock 新郎友人</span>
+                        </label>
+                        <label class="flex items-start cursor-pointer group-hover:text-morandi-sun">
+                            <input type="radio" name="entry.4" value="Jessie 新娘友人" class="hidden peer">
+                            <div class="w-5 h-5 mt-0.5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors flex-shrink-0">
+                                <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                            </div>
+                            <span class="tracking-widest text-gray-600 transition-colors">Jessie 新娘友人</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Q5. 大囍之日，你來不來？ -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-3 text-morandi-text font-medium flex items-center">
+                        <span class="text-red-400 mr-1">*</span>大囍之日，你來不來？ <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">ATTENDANCE</span>
+                    </label>
+                    <div class="space-y-4">
+                        <label class="flex items-start cursor-pointer group-hover:text-morandi-sun">
+                            <input type="radio" name="entry.5" value="準時出席！親自到現場一起吃喝玩樂～" class="hidden peer attend-radio" required>
+                            <div class="w-5 h-5 mt-0.5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors flex-shrink-0">
+                                <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                            </div>
+                            <span class="tracking-widest text-gray-600 transition-colors leading-relaxed">準時出席！親自到現場一起吃喝玩樂～</span>
+                        </label>
+                        <label class="flex items-start cursor-pointer group-hover:text-morandi-sun">
+                            <input type="radio" name="entry.5" value="無法參加，獻上遠端的祝福與你們同在" class="hidden peer attend-radio">
+                            <div class="w-5 h-5 mt-0.5 rounded-full border border-gray-400 mr-3 peer-checked:border-gray-400 peer-checked:bg-gray-400 flex items-center justify-center transition-colors flex-shrink-0">
+                                <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                            </div>
+                            <span class="tracking-widest text-gray-600 transition-colors leading-relaxed">無法參加，獻上遠端的祝福與你們同在</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 動態隱藏區塊：只有選擇「準時出席」才會顯示 -->
+                <div id="attend-details" class="space-y-10 hidden opacity-0 transition-all duration-500">
+                    
+                    <!-- Q6. 預計出席人數 -->
+                    <div class="flex flex-col group p-6 bg-white/50 rounded-2xl border border-morandi-sun/10">
+                        <label class="tracking-widest mb-3 text-morandi-text font-medium flex items-center">
+                            預計出席人數（包含你本人） <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">NUMBER OF GUESTS</span>
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.6" value="1位" class="hidden peer guest-count-radio">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">1位</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.6" value="2位" class="hidden peer guest-count-radio">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">2位</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.6" value="3位" class="hidden peer guest-count-radio">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">3位</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.6" value="__other_option__" class="hidden peer guest-count-radio" id="radio-other-guest">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600 whitespace-nowrap">其他：</span>
+                                <input type="text" name="entry.6.other_option_response" id="input-other-guest" disabled placeholder="請填寫人數" 
+                                       class="ml-2 bg-transparent border-b border-gray-300 py-1 w-24 focus:outline-none focus:border-morandi-sun text-center text-sm disabled:opacity-50 transition-colors">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q7. 飲食需求 -->
+                    <div class="flex flex-col group p-6 bg-white/50 rounded-2xl border border-morandi-sun/10">
+                        <label class="tracking-widest mb-3 text-morandi-text font-medium flex items-center">
+                            飲食需求 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">DIETARY</span>
+                        </label>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.7" value="葷食" class="hidden peer">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">葷食</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.7" value="蛋奶素" class="hidden peer">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">蛋奶素</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.7" value="全素" class="hidden peer">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">全素</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group-hover:text-morandi-sun">
+                                <input type="radio" name="entry.7" value="如有其他飲食禁忌，請備註給我們～" class="hidden peer">
+                                <div class="w-5 h-5 rounded-full border border-gray-400 mr-3 peer-checked:border-morandi-sun peer-checked:bg-morandi-sun flex items-center justify-center transition-colors">
+                                    <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+                                </div>
+                                <span class="tracking-widest text-gray-600">如有其他飲食禁忌，請備註給我們～</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q8. 飲食備註 -->
+                    <div class="flex flex-col group">
+                        <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                            飲食備註 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">DIETARY NOTES</span>
+                        </label>
+                        <input type="text" name="entry.8" value="" placeholder="若無則免填"
+                               class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors rounded-none placeholder:text-gray-300">
+                    </div>
+
+                    <!-- Q9. 其他備註 -->
+                    <div class="flex flex-col group">
+                        <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                            其他備註 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">OTHER NOTES</span>
+                        </label>
+                        <p class="text-xs text-gray-400 mb-2 tracking-wider leading-relaxed">兒童座椅、兒童餐具、想跟誰坐、不跟誰坐...(?)，有任何需求都可以跟我們說！</p>
+                        <input type="text" name="entry.9" value="" placeholder="若無則免填"
+                               class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors rounded-none placeholder:text-gray-300">
+                    </div>
+
+                </div> <!-- End of attend-details -->
+
+                <!-- Q10. 我想對新郎 / 新娘說 -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                        我想對新郎 / 新娘說： <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">MESSAGE</span>
+                    </label>
+                    <textarea name="entry.10" rows="3" value="" placeholder="留下您最誠摯的祝福..." 
+                              class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors resize-none rounded-none placeholder:text-gray-300 mt-2"></textarea>
+                </div>
+
+                <!-- Q11. 獨立上傳合照區塊 (透過 Google Apps Script 上傳至 Drive) -->
+                <div class="flex flex-col group">
+                    <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
+                        甜蜜合照 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">PHOTO UPLOAD</span>
+                    </label>
+                    <p class="text-xs text-gray-400 mb-4 tracking-wider leading-relaxed">最後，請上傳一張你和 Rock / Jessie 最滿意的合照🤍🖤<br>(建議上傳相片，為了上傳順暢，單張相片請小於 10MB)</p>
+                    
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-all duration-300">
+                        <!-- 檔案輸入框 -->
+                        <input type="file" id="file-upload" class="hidden" multiple accept="image/*" onchange="handleFileSelect()">
+                        
+                        <!-- 預設按鈕狀態 -->
+                        <div id="upload-ui-idle" class="cursor-pointer hover:bg-morandi-sun/5 p-4 rounded-lg" onclick="document.getElementById('file-upload').click()">
+                            <i data-lucide="image-plus" class="w-10 h-10 mx-auto text-morandi-sun/60 mb-3"></i>
+                            <p class="text-sm text-gray-600 tracking-wider mb-1">點擊此處選擇相片</p>
+                        </div>
+
+                        <!-- 已選擇檔案列表與上傳按鈕 -->
+                        <div id="file-list-container" class="hidden mt-4 text-left bg-white/50 p-4 rounded-lg border border-gray-100">
+                            <p class="text-sm text-morandi-green font-medium mb-2">準備上傳的相片：</p>
+                            <ul id="file-list" class="text-xs text-gray-500 space-y-2 mb-4 max-h-32 overflow-y-auto"></ul>
+                            <button type="button" id="start-upload-btn" onclick="startDriveUpload()" class="w-full bg-morandi-text hover:bg-gray-700 text-white py-3 rounded-lg text-sm tracking-widest transition-colors flex justify-center items-center gap-2">
+                                <span>立即上傳至專屬相簿</span>
+                                <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <!-- 狀態提示 -->
+                        <div id="upload-status" class="hidden mt-4 text-sm font-medium tracking-wider"></div>
+                    </div>
+                </div>
+
+                <!-- 提交按鈕 -->
+                <div class="pt-6">
+                    <button type="submit" id="submit-btn" class="w-full bg-morandi-sun hover:bg-[#c29263] text-white tracking-[0.2em] py-4 rounded-xl transition-colors duration-300 shadow-md flex justify-center items-center gap-2">
+                        <span>送出回函</span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </form>
+            
+            <!-- 提交成功訊息面板 -->
+            <div id="success-message" class="hidden mt-8 p-10 bg-white border border-morandi-sun/20 shadow-glow rounded-3xl text-center">
+                <i data-lucide="heart-handshake" class="w-16 h-16 text-morandi-sun mx-auto mb-6"></i>
+                <h3 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-3 font-medium">Thank You!</h3>
+                <p class="text-gray-600 tracking-wider mb-2">回函已成功送出，感謝您的祝福與回覆。</p>
+                <p class="text-sm text-gray-400 tracking-wider">我們非常期待與您共享這份喜悅。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-morandi-text text-white/50 py-12 text-center">
+        <p class="font-cormorant text-2xl mb-4 text-morandi-sun">Rock & Jessie</p>
+        <p class="text-xs tracking-[0.2em] mb-8">LOVE IN LONDON</p>
+        <p class="text-[10px] tracking-widest uppercase">© 2026 Rock & Jessie. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // --- 智能表單聯動邏輯 ---
+        
+        // 1. 參加意願連動：隱藏/顯示 出席人數與飲食區塊
+        const attendRadios = document.querySelectorAll('.attend-radio');
+        const attendDetails = document.getElementById('attend-details');
+        
+        attendRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if(this.value === '準時出席！親自到現場一起吃喝玩樂～') {
+                    attendDetails.classList.remove('hidden');
+                    // 延遲一點點加入 opacity 實現淡入動畫
+                    setTimeout(() => attendDetails.classList.remove('opacity-0'), 10);
+                    // 將隱藏區塊內的 required 屬性加上
+                    document.querySelectorAll('.guest-count-radio').forEach(r => r.required = true);
+                } else {
+                    attendDetails.classList.add('opacity-0');
+                    setTimeout(() => attendDetails.classList.add('hidden'), 500);
+                    // 移除隱藏區塊內的 required 避免無法送出表單
+                    document.querySelectorAll('.guest-count-radio').forEach(r => r.required = false);
+                }
+            });
+        });
+
+        // 2. 出席人數「其他」連動：啟用/停用 文字輸入框
+        const guestRadios = document.querySelectorAll('.guest-count-radio');
+        const otherGuestInput = document.getElementById('input-other-guest');
+        const otherGuestRadio = document.getElementById('radio-other-guest');
+
+        guestRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if(this.id === 'radio-other-guest') {
+                    otherGuestInput.disabled = false;
+                    otherGuestInput.focus();
+                } else {
+                    otherGuestInput.disabled = true;
+                    otherGuestInput.value = ''; // 清空
+                }
+            });
+        });
+        
+        // 點擊輸入框時，自動選擇「其他」的 Radio
+        otherGuestInput.addEventListener('click', function() {
+            otherGuestRadio.checked = true;
+            this.disabled = false;
+        });
+
+
+        // --- 倒數計時器邏輯 ---
+        const countdown = () => {
+            const countDate = new Date('December 12, 2026 12:00:00').getTime();
+            const now = new Date().getTime();
+            const gap = countDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const textDay = Math.floor(gap / day);
+            const textHour = Math.floor((gap % day) / hour);
+            const textMinute = Math.floor((gap % hour) / minute);
+            const textSecond = Math.floor((gap % minute) / second);
+
+            document.getElementById('cd-days').innerText = textDay < 10 ? '0' + textDay : textDay;
+            document.getElementById('cd-hours').innerText = textHour < 10 ? '0' + textHour : textHour;
+            document.getElementById('cd-minutes').innerText = textMinute < 10 ? '0' + textMinute : textMinute;
+            document.getElementById('cd-seconds').innerText = textSecond < 10 ? '0' + textSecond : textSecond;
+        };
+
+        setInterval(countdown, 1000);
+        countdown();
+
+        // --- Iframe 隱藏提交成功邏輯 ---
+        window.submitted = false;
+        function showSuccessMessage() {
+            document.querySelector('form').style.display = 'none';
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- Google Drive 直接上傳邏輯 (Apps Script) ---
+        // ⚠️ 以下已替換為您的專屬 Google Apps Script 部署網址！
+        const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLrHLJtYyChNmmbDG7r9Oexen3fCQYyVVITcK28tjYOLRud5kNVeAR6skVYXZnHr8/exec'; 
+        
+        let selectedFiles = [];
+
+        function handleFileSelect() {
+            const input = document.getElementById('file-upload');
+            selectedFiles = Array.from(input.files);
+            
+            const idleUi = document.getElementById('upload-ui-idle');
+            const listContainer = document.getElementById('file-list-container');
+            const fileList = document.getElementById('file-list');
+            
+            if (selectedFiles.length > 0) {
+                idleUi.classList.add('hidden');
+                listContainer.classList.remove('hidden');
+                fileList.innerHTML = '';
+                selectedFiles.forEach(file => {
+                    const li = document.createElement('li');
+                    li.textContent = `• ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                    fileList.appendChild(li);
+                });
+            }
+        }
+
+        async function startDriveUpload() {
+            if (selectedFiles.length === 0) return;
+            if (UPLOAD_SCRIPT_URL === 'YOUR_WEB_APP_URL_HERE') {
+                alert("【開發者注意】請先在程式碼下方設定您的 Google Apps Script 網址 (UPLOAD_SCRIPT_URL)，才能啟用上傳功能喔！");
+                return;
+            }
+
+            const btn = document.getElementById('start-upload-btn');
+            const statusDiv = document.getElementById('upload-status');
+            
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            statusDiv.classList.remove('hidden');
+            statusDiv.className = 'mt-4 text-sm font-medium tracking-wider text-morandi-sun flex items-center justify-center';
+            statusDiv.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin mr-2"></i> <span>正在準備上傳...</span>';
+            lucide.createIcons();
+
+            try {
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const file = selectedFiles[i];
+                    
+                    // 檔案大小防呆 (限制單檔 10MB)
+                    if (file.size > 10 * 1024 * 1024) {
+                        throw new Error(`檔案 ${file.name} 超過 10MB，請壓縮後再傳`);
+                    }
+
+                    statusDiv.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin mr-2"></i> <span>正在上傳第 ${i + 1} / ${selectedFiles.length} 張相片...</span>`;
+                    lucide.createIcons();
+                    
+                    const base64Data = await toBase64(file);
+                    const base64Content = base64Data.split(',')[1];
+                    
+                    const payload = {
+                        fileName: file.name,
+                        mimeType: file.type,
+                        data: base64Content
+                    };
+
+                    // 使用 mode: 'no-cors' 避免 Google 重新導向引發跨域錯誤
+                    await fetch(UPLOAD_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        mode: 'no-cors'
+                    });
+                }
+                
+                statusDiv.className = 'mt-4 text-sm font-medium tracking-wider text-morandi-green flex items-center justify-center';
+                statusDiv.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> <span>上傳成功！感謝您的分享！</span>';
+                lucide.createIcons();
+                
+                // 3秒後恢復原狀
+                setTimeout(() => {
+                    document.getElementById('upload-ui-idle').classList.remove('hidden');
+                    document.getElementById('file-list-container').classList.add('hidden');
+                    statusDiv.classList.add('hidden');
+                    document.getElementById('file-upload').value = '';
+                    selectedFiles = [];
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }, 3000);
+
+            } catch (error) {
+                console.error('Upload Error:', error);
+                statusDiv.className = 'mt-4 text-sm font-medium tracking-wider text-red-400 flex items-center justify-center';
+                statusDiv.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 mr-2 flex-shrink-0"></i> <span class="text-left">${error.message || '上傳失敗，請稍後再試。'}</span>`;
+                lucide.createIcons();
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html>
