@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock & Jessie | Love in London</title>
     
-    <!-- 💡 社群分享縮圖設定 (Open Graph & Twitter Card 增強版) -->
+    <!-- 💡 社群分享縮圖設定 (Open Graph) -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Rock & Jessie | Love in London" />
     <meta property="og:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
-    <!-- 確保這是真實可存取的絕對路徑 -->
+    <!-- ⚠️ 重要：請把下面 content 裡的網址，換成您真正的 GitHub Pages 網址 + 照片檔名 -->
     <meta property="og:image" content="https://weij727.github.io/rock-jessie-wedding/shortcut.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://weij727.github.io/rock-jessie-wedding/" />
-    
-    <!-- Twitter Card (LINE 也有時會優先抓取這個) -->
+    <!-- Twitter Card 標籤 (加強相容性) -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Rock & Jessie | Love in London" />
     <meta name="twitter:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
@@ -85,13 +83,12 @@
 </head>
 <body class="antialiased selection:bg-morandi-sun selection:text-white">
 
-    <!-- 1. 最上方標題 (優化：手機版高度 12vh 且垂直置中，文字適度縮小) -->
-    <!-- 💡 h-[12vh] 控制手機版高度為畫面 12%，md:h-auto 讓電腦版維持自然高度 -->
-    <!-- 💡 flex flex-col justify-center 確保文字在 12vh 的框框內完美上下置中 -->
-    <header class="w-full bg-white h-[12vh] md:h-auto md:py-6 flex flex-col justify-center text-center relative z-20 shadow-sm">
-        <h1 class="font-cormorant text-xl md:text-3xl text-morandi-text tracking-widest leading-loose">
+    <!-- 1. 最上方標題 (手機版控制高度) -->
+    <!-- 💡 加入了 h-[12vh] md:h-auto 控制手機版高度，並使用 flex 置中文字 -->
+    <header class="w-full bg-white h-[12vh] md:h-auto md:py-6 flex flex-col justify-center items-center relative z-20 shadow-sm">
+        <h1 class="font-cormorant text-xl md:text-3xl text-morandi-text tracking-widest leading-loose text-center">
             Rock & Jessie<br>
-            <span class="text-base md:text-xl text-morandi-sun block -mt-2 md:-mt-1">Wedding Invitation</span>
+            <span class="text-base md:text-xl text-morandi-sun block -mt-1 md:-mt-1">Wedding Invitation</span>
         </h1>
     </header>
 
@@ -114,7 +111,7 @@
             
             <!-- 時間 (行距緊湊) -->
             <div class="space-y-1 text-lg mb-8 pb-6 border-b border-morandi-sun/10">
-                <p class="tracking-wider text-morandi-text font-medium">2026.12.12 Sat.</p>
+                <p class="tracking-wider text-morandi-text font-medium">2026.12.12 Sat</p>
                 <p class="tracking-wider text-morandi-text font-medium">入席時間 / 17:30</p>
                 <p class="tracking-wider text-morandi-text font-medium">正式開始 / 18:00</p>
             </div>
@@ -149,6 +146,7 @@
             <!-- 隱藏式 Iframe，用於無跳轉提交 -->
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof submitted !== 'undefined' && submitted){showSuccessMessage();}"></iframe>
 
+            <!-- 💡 新增 id="rsvp-form" 以及 onsubmit="return handleFormSubmit(event);" -->
             <form id="rsvp-form" action="https://docs.google.com/forms/d/e/1FAIpQLScB6odivFNS7KHTW7sMifh9Ue5LGnnf9G80DFYUpCgZXTo_uw/formResponse" 
                   method="POST" 
                   target="hidden_iframe" 
@@ -329,12 +327,12 @@
 
                 </div> <!-- End of attend-details -->
 
-                <!-- Q10. 我想對新郎 / 新娘說 -->
+                <!-- Q10. 我想對新郎 / 新娘說 (必填) -->
                 <div class="flex flex-col group">
                     <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
-                        我想對新郎 / 新娘說： <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">MESSAGE</span>
+                        <span class="text-red-400 mr-1">*</span>我想對新郎 / 新娘說： <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">MESSAGE</span>
                     </label>
-                    <textarea name="entry.1977595338" rows="3" value="" placeholder="留下你最誠摯的祝福和對我們的愛吧～" 
+                    <textarea name="entry.1977595338" rows="3" required placeholder="留下你最誠摯的祝福和對我們的愛吧～" 
                               class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors resize-none rounded-none placeholder:text-gray-300 mt-2"></textarea>
                 </div>
 
@@ -394,10 +392,10 @@
     <div id="photo-reminder-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-6 bg-black/40 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
             <i data-lucide="image-off" class="w-14 h-14 text-morandi-sun/80 mx-auto mb-4"></i>
-            <h3 class="font-cormorant text-2xl text-morandi-text tracking-widest mb-2 font-medium">Hey 還沒上傳合照喔！</h3>
-            <p class="text-sm text-gray-500 tracking-wider mb-8 leading-relaxed">我們想要蒐集一張和你的合照，確定不留下照片嗎？</p>
+            <h3 class="font-cormorant text-2xl text-morandi-text tracking-widest mb-2 font-medium">Hey 還沒上傳合照耶</h3>
+            <p class="text-sm text-gray-500 tracking-wider mb-8 leading-relaxed">我們想要蒐集與你共享的回憶，確定不留下一張照片嗎？</p>
             <div class="flex flex-col gap-3">
-                <button type="button" onclick="closeReminderModal()" class="w-full bg-morandi-sun text-white py-3.5 rounded-xl tracking-widest transition-colors hover:bg-[#c29263] font-medium">立刻上傳</button>
+                <button type="button" onclick="closeReminderModal()" class="w-full bg-morandi-sun text-white py-3.5 rounded-xl tracking-widest transition-colors hover:bg-[#c29263] font-medium">立刻去上傳</button>
                 <button type="button" onclick="proceedWithoutPhoto()" class="w-full bg-gray-100 text-gray-500 py-3.5 rounded-xl tracking-widest transition-colors hover:bg-gray-200">沒有合照，直接送出</button>
             </div>
         </div>
