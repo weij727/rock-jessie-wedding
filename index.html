@@ -13,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -28,7 +29,7 @@
                     fontFamily: {
                         cormorant: ['"Cormorant Garamond"', 'serif'],
                         noto: ['"Noto Serif TC"', 'serif'],
-                        // 將 Mariyam Script 設為首選，Great Vibes 設為備用
+                        // 優先使用 Mariyam Script，若尚未上傳則使用 Great Vibes 備用
                         cursive: ['"Mariyam Script"', '"Great Vibes"', 'cursive'],
                     },
                     boxShadow: {
@@ -38,19 +39,24 @@
             }
         }
     </script>
+    
     <style>
-        /* ======================================================== */
-        /* 🔤 自訂字體載入 (Mariyam Script)                           */
-        /* 請將 mariyam.ttf 檔案上傳到 GitHub 與 index.html 同目錄     */
-        /* ======================================================== */
+        /* 🔤 自訂字體載入 (Mariyam Script) */
         @font-face {
             font-family: 'Mariyam Script';
             src: url('mariyam.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: swap;
         }
 
-        body { font-family: 'Noto Serif TC', serif; background-color: #fdfbf7; color: #4a4a4a; overflow-x: hidden; }
+        body { 
+            font-family: 'Noto Serif TC', serif; 
+            background-color: #fdfbf7; 
+            color: #4a4a4a; 
+            overflow-x: hidden; 
+        }
+        
         h1, h2, h3, .font-cormorant { font-family: 'Cormorant Garamond', serif; }
         
         details > summary { list-style: none; }
@@ -64,11 +70,10 @@
             100%  {opacity: 1; transform: translateY(0)}
         }
         
-        /* ======================================================== */
-        /* 📸 無縫照片滑動動畫設定                                   */
-        /* ======================================================== */
+        /* 📸 無縫照片滑動動畫設定 */
         .sliding-bg {
-            background-image: url('photo-output.jpeg');
+            /* ⚠️ 替換提醒：發布到 GitHub 時，請把下面這行網址改為 url('photo-output.jpeg'); */
+            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80');
             background-size: cover;
             background-position: center;
             animation: slideInfinite 25s linear infinite;
@@ -86,12 +91,12 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
         }
 
-        /* 滿版文字延展 (120%) */
+        /* 滿版文字延展設定 (120%) */
         .scale-width-120 {
             transform: scaleX(1.2);
         }
         
-        /* 文字陰影增強可讀性 (30% 黑色透明度) */
+        /* 文字陰影設定 (30% 黑色透明度) */
         .text-shadow-light {
             text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3), 0px 1px 3px rgba(0, 0, 0, 0.3);
         }
@@ -108,8 +113,8 @@
     </header>
 
     <!-- 2. 照片 & 覆蓋在照片上的日期 -->
-    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-100 flex">
-        <!-- 滑動圖片區 -->
+    <!-- 💡 加入 bg-gray-400，即使照片沒讀出來，白字日期也不會消失在白背景中 -->
+    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-400 flex">
         <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
         <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
         
@@ -121,10 +126,10 @@
         </div>
     </div>
 
-    <!-- 3. Save the day (空白背景處滿版 120%) -->
+    <!-- 3. Save the date (空白背景處滿版 120%) -->
     <div class="w-full overflow-hidden flex justify-center items-center py-6 bg-morandi-bg">
         <h2 class="font-cursive text-morandi-sun text-[16vw] md:text-[12vw] leading-none whitespace-nowrap scale-width-120 select-none opacity-80">
-            Save the day
+            Save the date
         </h2>
     </div>
 
@@ -425,7 +430,6 @@
     <script>
         lucide.createIcons();
 
-        // --- 智能表單聯動邏輯 ---
         const attendRadios = document.querySelectorAll('.attend-radio');
         const attendDetails = document.getElementById('attend-details');
         
@@ -464,7 +468,6 @@
             this.disabled = false;
         });
 
-        // --- Iframe 隱藏提交成功邏輯 ---
         window.submitted = false;
         function showSuccessMessage() {
             document.querySelector('form').style.display = 'none';
@@ -472,7 +475,6 @@
             document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- Google Drive 直接上傳邏輯 (Apps Script) ---
         const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLrHLJtYyChNmmbDG7r9Oexen3fCQYyVVITcK28tjYOLRud5kNVeAR6skVYXZnHr8/exec'; 
         
         let selectedFiles = [];
@@ -576,3 +578,5 @@
     </script>
 </body>
 </html>
+
+
