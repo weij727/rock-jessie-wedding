@@ -1,14 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock & Jessie | Love in London</title>
+    
+    <!-- 💡 社群分享縮圖設定 (Open Graph) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rock & Jessie | Love in London" />
+    <meta property="og:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
+    <!-- ⚠️ 重要：請把下面 content 裡的網址，換成您真正的 GitHub Pages 網址 + 照片檔名 -->
+    <meta property="og:image" content="https://weij727.github.io/rock-jessie-wedding/shortcut.png" />
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -29,8 +36,6 @@
                     fontFamily: {
                         cormorant: ['"Cormorant Garamond"', 'serif'],
                         noto: ['"Noto Serif TC"', 'serif'],
-                        // 優先使用 Mariyam Script，若尚未上傳則使用 Great Vibes 備用
-                        cursive: ['"Mariyam Script"', '"Great Vibes"', 'cursive'],
                     },
                     boxShadow: {
                         'glow': '0 8px 30px rgba(0, 0, 0, 0.06)',
@@ -41,15 +46,6 @@
     </script>
     
     <style>
-        /* 🔤 自訂字體載入 (Mariyam Script) */
-        @font-face {
-            font-family: 'Mariyam Script';
-            src: url('mariyam.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
         body { 
             font-family: 'Noto Serif TC', serif; 
             background-color: #fdfbf7; 
@@ -72,8 +68,7 @@
         
         /* 📸 無縫照片滑動動畫設定 */
         .sliding-bg {
-            /* ⚠️ 替換提醒：發布到 GitHub 時，請把下面這行網址改為 url('photo-output.jpeg'); */
-            background-image: url('photo-output.jpeg');
+            background-image: url('IMG_9201.PNG');
             background-size: cover;
             background-position: center;
             animation: slideInfinite 25s linear infinite;
@@ -90,11 +85,6 @@
             border: 1px solid rgba(212, 163, 115, 0.2);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
         }
-
-        /* 文字陰影設定 (30% 黑色透明度) */
-        .text-shadow-light {
-            text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3), 0px 1px 3px rgba(0, 0, 0, 0.3);
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-morandi-sun selection:text-white">
@@ -107,34 +97,13 @@
         </h1>
     </header>
 
-    <!-- 2. 照片 & 覆蓋在照片上的日期 -->
+    <!-- 2. 照片 (已將日期與文字整合進圖片) -->
     <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-400 flex">
         <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
         <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
-        
-        <!-- 蓋在照片上的白字日期 (移動至最底部，30%黑陰影) -->
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 w-full text-center z-10 pointer-events-none px-4">
-            <p class="font-cursive text-white text-5xl md:text-6xl tracking-wider text-shadow-light">
-                2026.12.12 Sat.
-            </p>
-        </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- 3. Save the date (完美貼邊，105% 寬度) -->
-    <!-- ============================================== -->
-    <div class="w-full overflow-hidden flex justify-center items-center py-6 md:py-8 bg-morandi-bg">
-        <!-- 💡 教學：
-             1. w-[105vw] 代表總寬度是螢幕的 105% (左右各溢出 2.5%)
-             2. max-w-none 確保它不會被手機螢幕強制縮小
-             3. 裡面的 textLength="1000" 魔法會把文字直接撐到最邊緣，保證不留任何空隙！
-        -->
-        <svg class="w-[105vw] max-w-none h-auto opacity-80 flex-shrink-0" viewBox="0 0 1000 250">
-            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs" class="font-cursive" fill="#d4a373" font-size="160">Save the date</text>
-        </svg>
-    </div>
-
-    <!-- 4. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
+    <!-- 3. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
     <section class="py-16 px-6 max-w-3xl mx-auto">
         <div class="v-card rounded-3xl p-8 md:p-14 text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-morandi-sun/20 via-morandi-sun to-morandi-sun/20"></div>
@@ -579,4 +548,3 @@
     </script>
 </body>
 </html>
-
