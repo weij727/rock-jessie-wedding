@@ -9,7 +9,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Rock & Jessie | Love in London" />
     <meta property="og:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
-    <meta property="og:image" content="https://weij727.github.io/rock-jessie-wedding/shortcut.png" />
+    <!-- ⚠️ 重要：請把下面 content 裡的網址，換成您真正的 GitHub Pages 網址 + 照片檔名 -->
+    <meta property="og:image" content="https://您的帳號.github.io/您的儲存庫名稱/shortcut.png" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,14 +66,6 @@
             100%  {opacity: 1; transform: translateY(0)}
         }
         
-        /* 📸 靜態照片背景設定 */
-        .hero-bg {
-            background-image: url('IMG_9201.PNG');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
         .v-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -91,8 +84,10 @@
         </h1>
     </header>
 
-    <!-- 2. 照片 (靜態滿版) -->
-    <div class="hero-bg w-full h-[55vh] md:h-[70vh] relative bg-gray-400">
+    <!-- 2. 照片 (靜態完整顯示，絕對不裁切) -->
+    <!-- 💡 使用 img 標籤讓照片保持原始比例，w-full h-auto 確保隨螢幕自動縮放，並以 bg-[#fdfbf7] 完美融合透明背景 -->
+    <div class="w-full bg-[#fdfbf7] flex justify-center">
+        <img src="IMG_9201.PNG" alt="Rock & Jessie" class="w-full max-w-4xl h-auto object-contain">
     </div>
 
     <!-- 3. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
