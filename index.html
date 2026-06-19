@@ -7,7 +7,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -27,6 +27,7 @@
                     fontFamily: {
                         cormorant: ['"Cormorant Garamond"', 'serif'],
                         noto: ['"Noto Serif TC"', 'serif'],
+                        cursive: ['"Great Vibes"', 'cursive'],
                     },
                     boxShadow: {
                         'glow': '0 8px 30px rgba(0, 0, 0, 0.06)',
@@ -36,7 +37,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Noto Serif TC', serif; background-color: #fdfbf7; color: #4a4a4a; }
+        body { font-family: 'Noto Serif TC', serif; background-color: #fdfbf7; color: #4a4a4a; overflow-x: hidden; }
         h1, h2, h3, .font-cormorant { font-family: 'Cormorant Garamond', serif; }
         
         details > summary { list-style: none; }
@@ -51,28 +52,20 @@
         }
         
         /* ======================================================== */
-        /* 📸 照片滑動動畫設定 (請在這裡換成你們的照片)               */
+        /* 📸 無縫照片滑動動畫設定                                   */
         /* ======================================================== */
         .sliding-bg {
-            /* 💡 替換教學：
-               請將下方 url('...') 裡面的那一長串預設圖片網址刪除，
-               改成您上傳的照片名稱，例如：url('bg.jpg')
-            */
             background-image: url('photo-output.jpeg');
             background-size: cover;
             background-position: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 120%; /* 增加 20% 寬度以產生向左滑動的隱藏空間 */
-            height: 100%;
-            /* 動畫設定：向左滑動，時間 25 秒，無限來回播放 */
-            animation: slideLeft 20s ease-in-out infinite alternate;
+            /* 動畫設定：向左無限滑動，時間 25 秒，等速 (linear)，無止境循環 (infinite) */
+            animation: slideInfinite 25s linear infinite;
         }
 
-        @keyframes slideLeft {
+        @keyframes slideInfinite {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-16.66%); } /* 完美的平滑位移比例 */
+            /* 100% 移動一整張照片的寬度，此時第二張照片剛好補上第一張的初始位置 */
+            100% { transform: translateX(-100%); }
         }
 
         .v-card {
@@ -81,69 +74,89 @@
             border: 1px solid rgba(212, 163, 115, 0.2);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
         }
+
+        /* 滿版文字延展 */
+        .scale-width-105 {
+            transform: scaleX(1.05);
+        }
+        
+        /* 文字陰影增強可讀性 */
+        .text-shadow-strong {
+            text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6), 0px 1px 3px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-morandi-sun selection:text-white">
 
     <!-- 1. 最上方標題 -->
-    <header class="w-full bg-white py-5 text-center relative z-20 shadow-sm">
-        <h1 class="font-cormorant text-2xl md:text-3xl text-morandi-text tracking-widest">
-            Rock & Jessie <span class="text-morandi-sun/50 mx-2">|</span> Love in London.
+    <header class="w-full bg-white py-6 text-center relative z-20 shadow-sm">
+        <h1 class="font-cormorant text-2xl md:text-3xl text-morandi-text tracking-widest leading-loose">
+            Rock & Jessie<br>
+            <span class="text-lg md:text-xl text-morandi-sun block -mt-1">Love in London.</span>
         </h1>
     </header>
 
-    <!-- 2. 照片 & 向左滑動動畫 -->
-    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-100">
-        <div class="sliding-bg"></div>
+    <!-- 2. 照片 & 覆蓋在照片上的日期 -->
+    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-100 flex">
+        <!-- 滑動圖片區 -->
+        <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
+        <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
+        
+        <!-- 蓋在照片上的白字日期 (中間偏下) -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-full text-center z-10 pointer-events-none px-4">
+            <p class="font-cursive text-white font-bold text-5xl md:text-6xl tracking-wider text-shadow-strong">
+                2026.12.12 Sat.
+            </p>
+        </div>
     </div>
 
-    <!-- 3. 白色色塊 (日期) -->
-    <div class="relative -mt-8 z-10 max-w-[280px] md:max-w-xs mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-glow py-4 px-6 text-center border border-morandi-sun/10">
-        <p class="font-cormorant text-2xl md:text-3xl text-morandi-text tracking-widest">
-            2026.12.12 <span class="text-morandi-sun font-medium ml-1">Sat.</span>
-        </p>
+    <!-- 3. Save the date (空白背景處滿版) -->
+    <div class="w-full overflow-hidden flex justify-center items-center py-6 bg-morandi-bg">
+        <h2 class="font-cursive text-morandi-sun text-[16vw] md:text-[12vw] leading-none whitespace-nowrap scale-width-105 select-none opacity-80">
+            Save the date
+        </h2>
     </div>
 
-    <!-- 4. 婚宴資訊 (時間 & 地點整合) -->
-    <section class="py-20 px-6 max-w-3xl mx-auto">
-        <div class="v-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+    <!-- 4. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
+    <section class="py-16 px-6 max-w-3xl mx-auto">
+        <div class="v-card rounded-3xl p-8 md:p-14 text-center relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-morandi-sun/20 via-morandi-sun to-morandi-sun/20"></div>
             
-            <i data-lucide="calendar-heart" class="w-10 h-10 mx-auto text-morandi-sun mb-6"></i>
-            <h2 class="font-cormorant text-2xl md:text-3xl text-morandi-green tracking-widest mb-2 whitespace-nowrap">Wedding Info</h2>
-            <p class="text-sm tracking-widest text-gray-400 mb-10 uppercase">婚宴資訊</p>
+            <i data-lucide="calendar-heart" class="w-8 h-8 mx-auto text-morandi-sun mb-4"></i>
+            <h2 class="font-cormorant text-2xl md:text-3xl text-morandi-green tracking-widest mb-1 whitespace-nowrap">Wedding Info</h2>
+            <p class="text-sm tracking-widest text-gray-400 mb-8 uppercase">婚禮資訊</p>
             
-            <!-- 時間 -->
-            <div class="space-y-3 text-lg mb-12 pb-10 border-b border-morandi-sun/10">
+            <!-- 時間 (行距緊湊) -->
+            <div class="space-y-1 text-lg mb-8 pb-6 border-b border-morandi-sun/10">
                 <p class="tracking-wider text-morandi-text font-medium">入席時間 / 17:30</p>
-                <p class="tracking-wider text-morandi-text font-medium">晚宴開始 / 18:00</p>
+                <p class="tracking-wider text-morandi-text font-medium">正式開始 / 18:00</p>
             </div>
 
-            <!-- 地點 -->
-            <div class="space-y-4 text-lg mb-10">
-                <i data-lucide="map-pin" class="w-6 h-6 mx-auto text-morandi-green mb-4"></i>
-                <p class="font-semibold text-lg md:text-xl tracking-wider md:tracking-widest text-morandi-text">
-                    <span class="whitespace-nowrap">GUMGUM EGG</span><br>
-                    <span class="text-sm md:text-base text-gray-500 font-medium whitespace-nowrap inline-block mt-1">小巨蛋店</span>
-                </p>
-                <p class="text-gray-600"><span class="whitespace-nowrap">臺北市松山區</span><span class="whitespace-nowrap">南京東路四段2號1樓1號</span></p>
+            <!-- 地點 (行距緊湊) -->
+            <div class="space-y-1 text-lg mb-8">
+                <i data-lucide="map-pin" class="w-5 h-5 mx-auto text-morandi-green mb-3"></i>
+                <p class="font-semibold text-lg md:text-xl tracking-wider md:tracking-widest text-morandi-text whitespace-nowrap">GUMGUM EGG</p>
+                <p class="text-sm tracking-widest text-gray-500 mb-2">(小巨蛋店)</p>
+                <p class="text-gray-600 mt-2"><span class="whitespace-nowrap">臺北市松山區</span><span class="whitespace-nowrap">南京東路四段2號1樓1號</span></p>
                 
                 <!-- Google Map 導航按鈕 -->
-                <a href="https://maps.app.goo.gl/jHxPSmR1fUn1aUHx7" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center gap-2 mt-4 px-6 py-2 border border-morandi-sun text-morandi-sun hover:bg-morandi-sun hover:text-white rounded-full transition-colors text-sm tracking-widest">
-                    <i data-lucide="map" class="w-4 h-4"></i>
-                    開啟 Google 導航
-                </a>
+                <div class="pt-4">
+                    <a href="https://maps.app.goo.gl/jHxPSmR1fUn1aUHx7" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center gap-2 px-6 py-2 border border-morandi-sun text-morandi-sun hover:bg-morandi-sun hover:text-white rounded-full transition-colors text-sm tracking-widest">
+                        <i data-lucide="map" class="w-4 h-4"></i>
+                        開啟 Google Map
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 5. 婚禮回函 & 6. 上傳照片 -->
-    <section id="rsvp" class="py-16 px-6 bg-white relative">
+    <section id="rsvp" class="py-16 px-6 bg-white relative border-t border-gray-50">
         <div class="max-w-2xl mx-auto relative z-10">
-            <div class="text-center mb-16">
-                <h2 class="font-cormorant text-4xl text-morandi-sun tracking-widest mb-4">R.S.V.P</h2>
-                <p class="tracking-widest text-morandi-green">期待與您共享這份喜悅</p>
+            <div class="text-center mb-12">
+                <h2 class="font-cormorant text-4xl text-morandi-sun tracking-widest mb-3">R.S.V.P</h2>
+                <p class="tracking-widest text-morandi-green">期待與你一起分享我們的幸福</p>
             </div>
 
             <!-- 隱藏式 Iframe，用於無跳轉提交 -->
@@ -334,16 +347,17 @@
                     <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
                         我想對新郎 / 新娘說： <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">MESSAGE</span>
                     </label>
-                    <textarea name="entry.1977595338" rows="3" value="" placeholder="留下您最誠摯的祝福..." 
+                    <textarea name="entry.1977595338" rows="3" value="" placeholder="留下你最誠摯的祝福和對我們的愛吧～" 
                               class="bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-morandi-sun transition-colors resize-none rounded-none placeholder:text-gray-300 mt-2"></textarea>
                 </div>
 
                 <!-- Q11. 獨立上傳合照區塊 (透過 Google Apps Script 上傳至 Drive) -->
                 <div class="flex flex-col group">
                     <label class="tracking-widest mb-1 text-morandi-text font-medium flex items-center">
-                        甜蜜合照 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">PHOTO UPLOAD</span>
+                        最後，請上傳一張你和 Rock / Jessie 最滿意的合照🤍🖤 <span class="text-xs text-gray-400 font-sans ml-2 tracking-normal">PHOTO UPLOAD</span>
                     </label>
-                    <p class="text-xs text-gray-400 mb-4 tracking-wider leading-relaxed">最後，請上傳一張你和 Rock / Jessie 最滿意的合照🤍🖤<br>(建議上傳相片，為了上傳順暢，單張相片請小於 10MB)</p>
+                    <p class="text-xs text-gray-400 mb-1 tracking-wider">人生大事，建議謹慎挑選。</p>
+                    <p class="text-xs text-gray-400 mb-4 tracking-wider">(單張相片請小於 10MB，張數不限)</p>
                     
                     <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-all duration-300">
                         <!-- 檔案輸入框 -->
@@ -373,7 +387,7 @@
                 <!-- 提交按鈕 -->
                 <div class="pt-6">
                     <button type="submit" id="submit-btn" class="w-full bg-morandi-sun hover:bg-[#c29263] text-white tracking-[0.2em] py-4 rounded-xl transition-colors duration-300 shadow-md flex justify-center items-center gap-2">
-                        <span>送出回函</span>
+                        <span>確定送出</span>
                         <i data-lucide="send" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -383,8 +397,8 @@
             <div id="success-message" class="hidden mt-8 p-10 bg-white border border-morandi-sun/20 shadow-glow rounded-3xl text-center">
                 <i data-lucide="heart-handshake" class="w-16 h-16 text-morandi-sun mx-auto mb-6"></i>
                 <h3 class="font-cormorant text-3xl text-morandi-green tracking-widest mb-3 font-medium">Thank You!</h3>
-                <p class="text-gray-600 tracking-wider mb-2">回函已成功送出，感謝您的祝福與回覆。</p>
-                <p class="text-sm text-gray-400 tracking-wider">我們非常期待與您共享這份喜悅。</p>
+                <p class="text-gray-600 tracking-wider mb-2">成功送出，我們收到你的祝福與回覆囉</p>
+                <p class="text-sm text-gray-400 tracking-wider">期待 12/12 與你相見🫶🏻</p>
             </div>
         </div>
     </section>
@@ -494,7 +508,7 @@
                     const file = selectedFiles[i];
                     
                     if (file.size > 10 * 1024 * 1024) {
-                        throw new Error(`檔案 ${file.name} 超過 10MB，請壓縮後再傳`);
+                        throw new Error(`檔案 ${file.name} 超過 10MB，請壓縮後再傳。`);
                     }
 
                     statusDiv.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin mr-2"></i> <span>正在上傳第 ${i + 1} / ${selectedFiles.length} 張相片...</span>`;
@@ -517,7 +531,7 @@
                 }
                 
                 statusDiv.className = 'mt-4 text-sm font-medium tracking-wider text-morandi-green flex items-center justify-center';
-                statusDiv.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> <span>上傳成功！感謝您的分享！</span>';
+                statusDiv.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> <span>上傳成功！</span>';
                 lucide.createIcons();
                 
                 setTimeout(() => {
@@ -551,6 +565,3 @@
     </script>
 </body>
 </html>
-
-
-```
