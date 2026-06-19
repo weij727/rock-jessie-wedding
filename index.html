@@ -10,7 +10,7 @@
     <meta property="og:title" content="Rock & Jessie | Love in London" />
     <meta property="og:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
     <!-- ⚠️ 重要：請把下面 content 裡的網址，換成您真正的 GitHub Pages 網址 + 照片檔名 -->
-    <meta property="og:image" content="https://您的帳號.github.io/您的儲存庫名稱/shortcut.png" />
+    <meta property="og:image" content="https://weij727.github.io/rock-jessie-wedding/shortcut.png" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,10 +84,12 @@
         </h1>
     </header>
 
-    <!-- 2. 照片 (靜態完整顯示，絕對不裁切) -->
-    <!-- 💡 使用 img 標籤讓照片保持原始比例，w-full h-auto 確保隨螢幕自動縮放，並以 bg-[#fdfbf7] 完美融合透明背景 -->
+    <!-- 2. 照片 (精準裁切：上方隱藏 5%、下方隱藏 15%) -->
     <div class="w-full bg-[#fdfbf7] flex justify-center">
-        <img src="IMG_9201.PNG" alt="Rock & Jessie" class="w-full max-w-4xl h-auto object-contain">
+        <!-- 💡 使用 overflow-hidden 搭配 JS 來精準隱藏不需要的部分，並自動收合空白 -->
+        <div id="crop-wrapper" class="w-full max-w-4xl overflow-hidden relative">
+            <img src="IMG_9201.PNG" id="hero-img" alt="Rock & Jessie" class="w-full h-auto block" onload="adjustImageCrop()">
+        </div>
     </div>
 
     <!-- 3. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
@@ -386,6 +388,28 @@
     <!-- Scripts -->
     <script>
         lucide.createIcons();
+
+        // --- 照片精準裁切邏輯 (上方5%、下方15%) ---
+        function adjustImageCrop() {
+            const img = document.getElementById('hero-img');
+            const wrapper = document.getElementById('crop-wrapper');
+            if (img && wrapper && img.offsetHeight > 0) {
+                const imgHeight = img.offsetHeight;
+                const topCrop = imgHeight * 0.05;   // 上方遮蓋 5%
+                const bottomCrop = imgHeight * 0.15; // 下方遮蓋 15%
+                
+                // 設定外層容器的高度為「扣除上下裁切後」的真實高度
+                wrapper.style.height = (imgHeight - topCrop - bottomCrop) + 'px';
+                // 將照片往上推 5%，達到上方遮蓋效果 (下方因為容器變矮，自然會被裁掉 15%)
+                img.style.marginTop = '-' + topCrop + 'px';
+            }
+        }
+        window.addEventListener('load', adjustImageCrop);
+        window.addEventListener('resize', adjustImageCrop);
+        // 若照片已經在快取中，直接觸發裁切
+        if (document.getElementById('hero-img') && document.getElementById('hero-img').complete) {
+            adjustImageCrop();
+        }
 
         const attendRadios = document.querySelectorAll('.attend-radio');
         const attendDetails = document.getElementById('attend-details');
