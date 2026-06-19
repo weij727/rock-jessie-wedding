@@ -9,7 +9,6 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Rock & Jessie | Love in London" />
     <meta property="og:description" content="2026.12.12 期待與你一起分享我們的幸福🤍🖤" />
-    <!-- ⚠️ 重要：請把下面 content 裡的網址，換成您真正的 GitHub Pages 網址 + 照片檔名 -->
     <meta property="og:image" content="https://weij727.github.io/rock-jessie-wedding/shortcut.png" />
     
     <!-- Google Fonts -->
@@ -66,17 +65,12 @@
             100%  {opacity: 1; transform: translateY(0)}
         }
         
-        /* 📸 無縫照片滑動動畫設定 */
-        .sliding-bg {
+        /* 📸 靜態照片背景設定 */
+        .hero-bg {
             background-image: url('IMG_9201.PNG');
             background-size: cover;
             background-position: center;
-            animation: slideInfinite 25s linear infinite;
-        }
-
-        @keyframes slideInfinite {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            background-repeat: no-repeat;
         }
 
         .v-card {
@@ -97,10 +91,8 @@
         </h1>
     </header>
 
-    <!-- 2. 照片 (已將日期與文字整合進圖片) -->
-    <div class="w-full h-[55vh] md:h-[70vh] relative overflow-hidden bg-gray-400 flex">
-        <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
-        <div class="sliding-bg w-full flex-shrink-0 h-full relative z-0"></div>
+    <!-- 2. 照片 (靜態滿版) -->
+    <div class="hero-bg w-full h-[55vh] md:h-[70vh] relative bg-gray-400">
     </div>
 
     <!-- 3. 婚宴資訊 (時間 & 地點整合，行距縮小) -->
